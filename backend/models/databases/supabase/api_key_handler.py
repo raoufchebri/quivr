@@ -66,7 +66,7 @@ class ApiKeyHandler(Repository):
             self.supabase_client.table("api_keys")
             .select("key_id, creation_time")
             .filter("user_id", "eq", user_id)
-            .filter("is_active", "eq", True)
+            .filter("is_active", "eq", "true")
             .execute()
         )
         return response.data

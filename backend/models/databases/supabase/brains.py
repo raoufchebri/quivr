@@ -157,7 +157,7 @@ class Brain(Repository):
         for vector_id in vector_ids:
             self.supabase_client.table("brains_vectors").delete().filter(
                 "vector_id", "eq", vector_id
-            ).filter("brain_id", "eq", brain_id).execute()
+            ).filter("brain_id", "eq", str(brain_id)).execute()
 
             # Check if the vector is still associated with any other brains
             associated_brains_response = (

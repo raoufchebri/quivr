@@ -33,7 +33,7 @@ class User(Repository):
         requests_stats = (
             self.supabase_client.from_("users")
             .select("*")
-            .filter("user_id", "eq", user_id)
+            .filter("user_id", "eq", str(user_id))
             .execute()
         )
         return requests_stats
