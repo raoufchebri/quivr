@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 
 class Repository(ABC):
-    def __init__(self, session: Session, supabase_client: Client):
+    def __init__(self, session: Session = None, supabase_client: Client = None):
         self.supabase_client = supabase_client
         self.session = session
 
