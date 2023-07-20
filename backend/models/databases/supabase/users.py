@@ -11,7 +11,7 @@ class User(Repository):
 
     def __init__(self, supabase_client: Client):
         self.supabase_client = supabase_client
-        
+
     def create_user(self, user_id, user_email, date):
         return (
             self.supabase_client.table("users")

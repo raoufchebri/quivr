@@ -1,6 +1,5 @@
 from models.databases.repository import Repository
 from supabase.client import Client
-from supabase import CountMethod
 
 
 class Vector(Repository):
@@ -57,7 +56,7 @@ class Vector(Repository):
             self.supabase_client.table("vectors")
             .select(
                 "name:metadata->>file_name, size:metadata->>file_size",
-                count=CountMethod.EXACT,
+                count="exact",  # type: ignore
             )
             .eq("id", batch_id)
             .execute()

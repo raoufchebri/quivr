@@ -5,7 +5,7 @@ from supabase.client import Client
 
 class Brain(Repository):
     supabase_client: Client
-    
+
     def __init__(self, supabase_client: Client):
         self.supabase_client = supabase_client
 
