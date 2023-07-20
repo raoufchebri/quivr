@@ -2,10 +2,11 @@ from abc import ABC, abstractmethod
 from uuid import UUID
 from datetime import datetime
 from supabase.client import Client
+from sqlalchemy.orm import Session
 
 
 class Repository(ABC):
-    def __init__(self, session=None, supabase_client: Client = None):
+    def __init__(self, session: Session, supabase_client: Client):
         self.supabase_client = supabase_client
         self.session = session
 
