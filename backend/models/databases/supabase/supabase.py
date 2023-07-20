@@ -15,7 +15,7 @@ logger = get_logger(__name__)
 
 class SupabaseDB(Brain, User, File, BrainSubscription, ApiKeyHandler, Chats, Vector):
     def __init__(self, supabase_client):
-        super().__init__(supabase_client)
+        super().__init__(supabase_client=supabase_client)
         # Brain.__init__(self, supabase_client)
         # User.__init__(self, supabase_client)
         # File.__init__(self, supabase_client)
