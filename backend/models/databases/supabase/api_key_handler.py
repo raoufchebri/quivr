@@ -4,8 +4,10 @@ from supabase.client import Client
 
 
 class ApiKeyHandler(Repository):
+    supabase_client: Client
+
     def __init__(self, supabase_client: Client):
-        super().__init__(supabase_client=supabase_client)
+        self.supabase_client = supabase_client
 
     def create_api_key(self, new_key_id, new_api_key, user_id):
         response = (
@@ -45,7 +47,7 @@ class ApiKeyHandler(Repository):
             self.supabase_client.table("api_keys")
             .select("api_key", "creation_time")
             .filter("api_key", "eq", str(api_key))
-            .filter("is_active", "eq", True)
+            .filter("is_active", "eq", "true")
             .execute()
         )
         return response

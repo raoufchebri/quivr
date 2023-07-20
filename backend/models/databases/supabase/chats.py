@@ -1,7 +1,13 @@
 from models.databases.repository import Repository
+from supabase.client import Client
 
 
 class Chats(Repository):
+    supabase_client: Client
+
+    def __init__(self, supabase_client: Client):
+        self.supabase_client = supabase_client
+
     def create_chat(self, new_chat):
         response = self.supabase_client.table("chats").insert(new_chat).execute()
         return response
@@ -10,7 +16,7 @@ class Chats(Repository):
         response = (
             self.supabase_client.from_("chats")
             .select("*")
-            .filter("chat_id", "eq", chat_id)
+            .filter("chat_id", "eq", str(chat_id))
             .execute()
         )
         return response
@@ -19,7 +25,7 @@ class Chats(Repository):
         reponse = (
             self.supabase_client.from_("chat_history")
             .select("*")
-            .filter("chat_id", "eq", chat_id)
+            .filter("chat_id", "eq", str(chat_id))
             .order("message_time", desc=False)  # Add the ORDER BY clause
             .execute()
         )
@@ -30,7 +36,7 @@ class Chats(Repository):
         response = (
             self.supabase_client.from_("chats")
             .select("chat_id,user_id,creation_time,chat_name")
-            .filter("user_id", "eq", user_id)
+            .filter("user_id", "eq", str(user_id))
             .execute()
         )
         return response
@@ -74,7 +80,7 @@ class Chats(Repository):
         response = (
             self.supabase_client.from_("chats")
             .select("*")
-            .filter("chat_id", "eq", chat_id)
+            .filter("chat_id", "eq", str(chat_id))
             .execute()
         )
         return response

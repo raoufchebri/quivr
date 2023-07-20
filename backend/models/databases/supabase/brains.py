@@ -1,13 +1,19 @@
 from uuid import UUID
 from models.databases.repository import Repository
+from supabase.client import Client
 
 
 class Brain(Repository):
+    supabase_client: Client
+    
+    def __init__(self, supabase_client: Client):
+        self.supabase_client = supabase_client
+
     def get_user_brains(self, user_id):
         response = (
             self.supabase_client.from_("brains_users")
             .select("id:brain_id, brains (id: brain_id, name)")
-            .filter("user_id", "eq", user_id)
+            .filter("user_id", "eq", str(user_id))
             .execute()
         )
         return response
@@ -17,7 +23,7 @@ class Brain(Repository):
             self.supabase_client.from_("brains_users")
             .select("id:brain_id, rights, brains (id: brain_id, name)")
             .filter("user_id", "eq", user_id)
-            .filter("brain_id", "eq", brain_id)
+            .filter("brain_id", "eq", str(brain_id))
             .execute()
         )
         return response
@@ -26,7 +32,7 @@ class Brain(Repository):
         response = (
             self.supabase_client.from_("brains")
             .select("id:brain_id, name, *")
-            .filter("brain_id", "eq", brain_id)
+            .filter("brain_id", "eq", str(brain_id))
             .execute()
         )
         return response.data
@@ -157,7 +163,7 @@ class Brain(Repository):
             associated_brains_response = (
                 self.supabase_client.table("brains_vectors")
                 .select("brain_id")
-                .filter("vector_id", "eq", vector_id)
+                .filter("vector_id", "eq", str(vector_id))
                 .execute()
             )
             associated_brains = [
@@ -177,7 +183,7 @@ class Brain(Repository):
             self.supabase_client.from_("brains_users")
             .select("brain_id")
             .filter("user_id", "eq", user_id)
-            .filter("default_brain", "eq", True)
+            .filter("default_brain", "eq", "true")
             .execute()
         )
 
@@ -187,7 +193,7 @@ class Brain(Repository):
         response = (
             self.supabase_client.from_("brains")
             .select("id:brain_id, name, *")
-            .filter("brain_id", "eq", brain_id)
+            .filter("brain_id", "eq", str(brain_id))
             .execute()
         )
 

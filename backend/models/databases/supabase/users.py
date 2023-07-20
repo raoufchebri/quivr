@@ -1,4 +1,5 @@
 from models.databases.repository import Repository
+from supabase.client import Client
 
 from logger import get_logger
 
@@ -6,6 +7,11 @@ logger = get_logger(__name__)
 
 
 class User(Repository):
+    supabase_client: Client
+
+    def __init__(self, supabase_client: Client):
+        self.supabase_client = supabase_client
+        
     def create_user(self, user_id, user_email, date):
         return (
             self.supabase_client.table("users")

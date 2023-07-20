@@ -1,7 +1,13 @@
 from models.databases.repository import Repository
+from supabase.client import Client
 
 
 class File(Repository):
+    supabase_client: Client
+
+    def __init__(self, supabase_client: Client):
+        self.supabase_client = supabase_client
+
     def set_file_vectors_ids(self, file_sha1):
         response = (
             self.supabase_client.table("vectors")

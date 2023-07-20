@@ -1,7 +1,13 @@
 from models.databases.repository import Repository
+from supabase.client import Client
 
 
 class Vector(Repository):
+    supabase_client: Client
+
+    def __init__(self, supabase_client: Client):
+        self.supabase_client = supabase_client
+
     def get_vectors_by_file_name(self, file_name):
         response = (
             self.supabase_client.table("vectors")
