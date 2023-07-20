@@ -1,8 +1,12 @@
 from models.databases.repository import Repository
 from datetime import datetime
+from supabase.client import Client
 
 
 class ApiKeyHandler(Repository):
+    def __init__(self, supabase_client: Client):
+        super().__init__(supabase_client=supabase_client)
+
     def create_api_key(self, new_key_id, new_api_key, user_id):
         response = (
             self.supabase_client.table("api_keys")
@@ -40,7 +44,7 @@ class ApiKeyHandler(Repository):
         response = (
             self.supabase_client.table("api_keys")
             .select("api_key", "creation_time")
-            .filter("api_key", "eq", api_key)
+            .filter("api_key", "eq", str(api_key))
             .filter("is_active", "eq", True)
             .execute()
         )
@@ -50,7 +54,7 @@ class ApiKeyHandler(Repository):
         response = (
             self.supabase_client.table("api_keys")
             .select("user_id")
-            .filter("api_key", "eq", api_key)
+            .filter("api_key", "eq", str(api_key))
             .execute()
         )
         return response

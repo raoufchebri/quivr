@@ -3,10 +3,11 @@ from uuid import UUID
 from datetime import datetime
 from supabase.client import Client
 from sqlalchemy.orm import Session
+from typing import Optional
 
 
 class Repository(ABC):
-    def __init__(self, session: Session = None, supabase_client: Client = None):
+    def __init__(self, session: Optional[Session] = None, supabase_client: Optional[Client] = None):
         self.supabase_client = supabase_client
         self.session = session
 

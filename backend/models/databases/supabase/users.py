@@ -39,7 +39,7 @@ class User(Repository):
         response = (
             self.supabase_client.from_("users")
             .select("*")
-            .filter("user_id", "eq", user_id)
+            .filter("user_id", "eq", str(user_id))
             .filter("date", "eq", date)
             .execute()
         )
@@ -63,7 +63,7 @@ class User(Repository):
         response = (
             self.supabase_client.from_("users")
             .select("email")
-            .filter("user_id", "eq", user_id)
+            .filter("user_id", "eq", str(user_id))
             .execute()
         )
 
@@ -74,7 +74,7 @@ class User(Repository):
             self.supabase_client.from_("users")
             .select("*")
             .filter("email", "eq", user_email)
-            .filter("date", "eq", date)
+            .filter("date", "eq", str(date))
             .execute()
         )
 

@@ -52,7 +52,10 @@ class Chats(Repository):
 
     def update_chat(self, chat_id, updates):
         response = (
-            self.supabase_client.table("chats").update(updates).match({"chat_id": chat_id}).execute()
+            self.supabase_client.table("chats")
+            .update(updates)
+            .match({"chat_id": chat_id})
+            .execute()
         )
 
         return response
@@ -77,7 +80,11 @@ class Chats(Repository):
         return response
 
     def delete_chat(self, chat_id):
-        self.supabase_client.table("chat_history").delete().match({"chat_id": chat_id}).execute()
+        self.supabase_client.table("chat_history").delete().match(
+            {"chat_id": chat_id}
+        ).execute()
 
     def delete_chat_history(self, chat_id):
-        self.supabase_client.table("chat_history").delete().match({"chat_id": chat_id}).execute()
+        self.supabase_client.table("chat_history").delete().match(
+            {"chat_id": chat_id}
+        ).execute()

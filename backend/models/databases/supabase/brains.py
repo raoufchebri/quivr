@@ -62,7 +62,10 @@ class Brain(Repository):
 
     def delete_brain(self, brain_id: str):
         results = (
-            self.supabase_client.table("brains").delete().match({"brain_id": brain_id}).execute()
+            self.supabase_client.table("brains")
+            .delete()
+            .match({"brain_id": brain_id})
+            .execute()
         )
 
         return results
@@ -123,7 +126,7 @@ class Brain(Repository):
         response = (
             self.supabase_client.from_("brains_vectors")
             .select("vector_id")
-            .filter("brain_id", "eq", brain_id)
+            .filter("brain_id", "eq", str(brain_id))
             .execute()
         )
 
