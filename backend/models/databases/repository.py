@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 from datetime import datetime
+from supabase.client import Client
 
 
 class Repository(ABC):
-    def __init__(self, session=None, supabase_client=None):
+    def __init__(self, session=None, supabase_client: Client = None):
         self.supabase_client = supabase_client
         self.session = session
-    
+
     @abstractmethod
     def get_user_brains(self, user_id: str):
         pass

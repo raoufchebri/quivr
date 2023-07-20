@@ -7,14 +7,11 @@ from models.databases.supabase import (
     Chats,
     Vector,
 )
-from logger import get_logger
-
-
-logger = get_logger(__name__)
+from supabase.client import Client
 
 
 class SupabaseDB(Brain, User, File, BrainSubscription, ApiKeyHandler, Chats, Vector):
-    def __init__(self, supabase_client):
+    def __init__(self, supabase_client: Client):
         super().__init__(supabase_client=supabase_client)
         Brain.__init__(self, supabase_client=supabase_client)
         User.__init__(self, supabase_client=supabase_client)
