@@ -50,10 +50,14 @@ class Brain(BaseModel):
         )  # pyright: ignore reportPrivateUsage=none
 
     def get_user_brains(self, user_id):
-        return self.commons["db"].get_user_brains(user_id)
+        response = self.commons["db"].get_user_brains(user_id)
+        return [item["brains"] for item in response.data]
 
     def get_brain_for_user(self, user_id):
-        return self.commons["db"].get_brain_for_user(user_id, self.id)
+        response = self.commons["db"].get_brain_for_user(user_id, self.id)
+        if len(response.data) == 0:
+            return None
+        return response.data[0]
 
     def get_brain_details(self):
         return self.commons["db"].get_brain_details(self.id)

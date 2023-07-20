@@ -3,12 +3,9 @@ from datetime import datetime
 
 
 class ApiKeyHandler(Repository):
-    def __init__(self, supabase_client):
-        self.db = supabase_client
-
     def create_api_key(self, new_key_id, new_api_key, user_id):
         response = (
-            self.db.table("api_keys")
+            self.supabase_client.table("api_keys")
             .insert(
                 [
                     {
@@ -28,7 +25,7 @@ class ApiKeyHandler(Repository):
 
     def delete_api_key(self, key_id, user_id):
         return (
-            self.db.table("api_keys")
+            self.supabase_client.table("api_keys")
             .update(
                 {
                     "is_active": False,
@@ -41,7 +38,7 @@ class ApiKeyHandler(Repository):
 
     def get_active_api_key(self, api_key):
         response = (
-            self.db.table("api_keys")
+            self.supabase_client.table("api_keys")
             .select("api_key", "creation_time")
             .filter("api_key", "eq", api_key)
             .filter("is_active", "eq", True)
@@ -51,7 +48,7 @@ class ApiKeyHandler(Repository):
 
     def get_user_id_by_api_key(self, api_key):
         response = (
-            self.db.table("api_keys")
+            self.supabase_client.table("api_keys")
             .select("user_id")
             .filter("api_key", "eq", api_key)
             .execute()
@@ -60,7 +57,7 @@ class ApiKeyHandler(Repository):
 
     def get_user_api_keys(self, user_id):
         response = (
-            self.db.table("api_keys")
+            self.supabase_client.table("api_keys")
             .select("key_id, creation_time")
             .filter("user_id", "eq", user_id)
             .filter("is_active", "eq", True)

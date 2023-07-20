@@ -6,13 +6,9 @@ logger = get_logger(__name__)
 
 
 class User(Repository):
-    def __init__(self, supabase_client):
-        self.db = supabase_client
-
-    # [TODO] Rename the user table and its references to 'user_usage'
     def create_user(self, user_id, user_email, date):
         return (
-            self.db.table("users")
+            self.supabase_client.table("users")
             .insert(
                 {
                     "user_id": user_id,
@@ -29,7 +25,7 @@ class User(Repository):
         Fetch the user request stats from the database
         """
         requests_stats = (
-            self.db.from_("users")
+            self.supabase_client.from_("users")
             .select("*")
             .filter("user_id", "eq", user_id)
             .execute()
@@ -41,7 +37,7 @@ class User(Repository):
         Fetch the user request count from the database
         """
         response = (
-            self.db.from_("users")
+            self.supabase_client.from_("users")
             .select("*")
             .filter("user_id", "eq", user_id)
             .filter("date", "eq", date)
@@ -52,7 +48,7 @@ class User(Repository):
 
     def update_user_request_count(self, user_id, requests_count, date):
         response = (
-            self.db.table("users")
+            self.supabase_client.table("users")
             .update({"requests_count": requests_count})
             .match({"user_id": user_id, "date": date})
             .execute()
@@ -65,7 +61,7 @@ class User(Repository):
         Fetch the user email from the database
         """
         response = (
-            self.db.from_("users")
+            self.supabase_client.from_("users")
             .select("email")
             .filter("user_id", "eq", user_id)
             .execute()
@@ -75,7 +71,7 @@ class User(Repository):
 
     def get_user_stats(self, user_email, date):
         response = (
-            self.db.from_("users")
+            self.supabase_client.from_("users")
             .select("*")
             .filter("email", "eq", user_email)
             .filter("date", "eq", date)
